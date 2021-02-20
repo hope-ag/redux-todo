@@ -156,10 +156,10 @@ li {
   box-shadow: 2px 2px 3px 1px rgba(40, 40, 40, 0.25);
 }
 .App__list li.done {
-  background: linear-gradient(270deg, rgb(120, 238, 157), rgb(107, 252, 201));
+  background: linear-gradient(90deg, rgb(47, 249, 188), rgb(0, 255, 123));
 }
 .App__list li.active {
-  background: linear-gradient(270deg, rgb(220, 238, 120), rgb(248, 205, 95));
+  background: linear-gradient(270deg, rgb(235, 254, 127), rgb(255, 203, 71));
 }
 
 li:hover {
@@ -189,7 +189,7 @@ li.active {
 }
 
 .todo-desc {
-  display: block;
+  margin-right: auto;
   font-weight: bold;
 }
 
@@ -200,13 +200,17 @@ li.active {
   margin-top: 5rem;
 }
 .selectedTxt {
-  display: flex;
   gap: 2rem;
   width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   max-width: 980px;
-  margin: 2rem auto;
+  margin: 3rem auto;
 }
 .selectedTxt h2 {
   margin: 0;
+  text-align: center;
+  /* display: inline; */
   width: inherit;
 }
