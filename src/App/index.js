@@ -81,7 +81,7 @@ function App() {
     dispatch(
       toggleTodoActionCreator({
         id: selectedTodo.id,
-        isComplete: selectedTodo.isComplete,
+        isComplete: !selectedTodo.isComplete,
       })
     );
   };
