@@ -1,14 +1,16 @@
 import { v1 as uuid } from "uuid";
-const CREATE = "CREATE_TODO";
-const EDIT = "EDIT_TODO";
-const DELETE = "DELETE_TODO";
-const TOGGLE = "TOGGLE_TODO";
-const SELECT = "SELECT_TODO";
+export const actions = {
+  CREATE: "CREATE_TODO",
+  EDIT: "EDIT_TODO",
+  DELETE: "DELETE_TODO",
+  TOGGLE: "TOGGLE_TODO",
+  SELECT: "SELECT_TODO",
+};
 
 export const createTodoActionCreator = (data) => {
   const { desc } = data;
   return {
-    type: CREATE,
+    type: actions.CREATE,
     payload: {
       id: uuid(),
       desc,
@@ -19,7 +21,7 @@ export const createTodoActionCreator = (data) => {
 export const editTodoActionCreator = (data) => {
   const { desc, id } = data;
   return {
-    type: EDIT,
+    type: actions.EDIT,
     payload: {
       id,
       desc,
@@ -29,7 +31,7 @@ export const editTodoActionCreator = (data) => {
 export const deleteTodoActionCreator = (data) => {
   const { id } = data;
   return {
-    type: DELETE,
+    type: actions.DELETE,
     payload: {
       id,
     },
@@ -38,7 +40,7 @@ export const deleteTodoActionCreator = (data) => {
 export const toggleTodoActionCreator = (data) => {
   const { id, isComplete } = data;
   return {
-    type: TOGGLE,
+    type: actions.TOGGLE,
     payload: {
       id,
       isComplete,
@@ -48,7 +50,7 @@ export const toggleTodoActionCreator = (data) => {
 export const selectTodoActionCreator = (data) => {
   const { id } = data;
   return {
-    type: SELECT,
+    type: actions.SELECT,
     payload: {
       id,
     },

@@ -9,11 +9,13 @@ import { todos } from "./data";
 import { v1 as uuid } from "uuid";
 
 import "./App.css";
-
-const selectedTodoId = todos[1].id;
-const editedCount = 0;
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  const todos = useSelector((store) => store.todos);
+  const editedCount = useSelector((store) => store.counter);
+  const selectedTodoId = useSelector((store) => store.selectedTodo);
   const [newTodoInput, setNewTodoInput] = useState("");
   const [editTodoInput, setEditTodoInput] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
