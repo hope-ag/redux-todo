@@ -10,12 +10,20 @@ import { v1 as uuid } from "uuid";
 
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  actions,
+  selectTodoActionCreator,
+  toggleTodoActionCreator,
+  deleteTodoActionCreator,
+  createTodoActionCreator,
+  editTodoActionCreator,
+} from "../features/actions";
 
 function App() {
   const dispatch = useDispatch();
   const todos = useSelector((store) => store.todos);
   const editedCount = useSelector((store) => store.counter);
-  const selectedTodoId = useSelector((store) => store.selectedTodo);
+  const selectedTodoId = useSelector((store) => store.selected);
   const [newTodoInput, setNewTodoInput] = useState("");
   const [editTodoInput, setEditTodoInput] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
@@ -34,9 +42,18 @@ function App() {
   // Creates a new todo from the main input
   const handleCreateNewTodo = (e) => {
     e.preventDefault();
+    if (!newTodoInput) return;
+    dispatch(
+      createTodoActionCreator({
+        desc: newTodoInput,
+      })
+    );
+    setNewTodoInput("");
   };
 
-  const handleSelectTodo = (todoId) => () => {};
+  const handleSelectTodo = (todoId) => () => {
+    dispatch(selectTodoActionCreator({ id: todoId }));
+  };
   // Makes the todo item editable
   const handleEdit = () => {
     if (!selectedTodo) return;
@@ -46,6 +63,11 @@ function App() {
   };
   const handleUpdate = (e) => {
     e.preventDefault();
+    dispatch(
+      editTodoActionCreator({ id: selectedTodoId, desc: editTodoInput })
+    );
+    setIsEditMode(false);
+    setEditTodoInput("");
   };
   //Used to cancel out of the edit mode
   const handleCancelUpdate = (e) => {
@@ -55,7 +77,17 @@ function App() {
   };
 
   const handleToggle = () => {
-    if (!selectedTodoId || !selectedTodo) return;
+    if (!selectedTodoId && !selectedTodo) return;
+    dispatch(
+      toggleTodoActionCreator({
+        id: selectedTodo.id,
+        isComplete: selectedTodo.isComplete,
+      })
+    );
+  };
+  const handleDelete = () => {
+    if (!selectedTodoId) return;
+    dispatch(deleteTodoActionCreator({ id: selectedTodoId }));
   };
   //UseEffect
 
@@ -65,9 +97,6 @@ function App() {
     }
   }, [isEditMode]);
 
-  const handleDelete = () => {
-    if (!selectedTodoId) return;
-  };
   return (
     <div className='App'>
       <div className='App__counter'>
@@ -82,6 +111,7 @@ function App() {
             id='new-todo'
             value={newTodoInput}
           />
+
           <button type='submit'>Create</button>
         </form>
         <div className='App_todo-info'>
@@ -89,14 +119,14 @@ function App() {
             <span className='empty-state'>No Todo Selected</span>
           ) : !isEditMode ? (
             <>
-              {" "}
-              <h2>Selected Todo:</h2>
-              <span
-                className={`todo-desc ${
-                  selectedTodo?.isComplete ? "done" : ""
-                }`}
-              >
-                <p>{selectedTodo.desc}</p>
+              <span className='selectedTxt'>
+                {" "}
+                <h2>Selected Todo:</h2>
+                <span
+                  className={`todo-desc ${selectedTodo?.isComplete ? "n" : ""}`}
+                >
+                  <p>{selectedTodo.desc}</p>
+                </span>
               </span>
               <div>
                 <div className='todo-actions'>
@@ -126,7 +156,7 @@ function App() {
           <h2>My Todos:</h2>
           {todos.map((todo, i) => (
             <li
-              className={`${todo.isComplete ? "done" : ""} ${
+              className={`${todo.isComplete ? "done" : "not-done"} ${
                 todo.id === selectedTodoId ? "active" : ""
               }`}
               key={todo.id}
